@@ -32,5 +32,7 @@ def test_not_accessible_when_both_invalid(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr(main, "valid_google_url", lambda url: False)
     monkeypatch.setattr(main, "has_internet_connection", lambda: False)
 
-    result = main.can_access_google_page("https://fake.com")
+    result = main.can_access_google_page(
+        "https://fake.com"
+    )
     assert result == "Not accessible"
