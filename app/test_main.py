@@ -6,7 +6,9 @@ def test_accessible_when_url_valid_and_internet(monkeypatch: MonkeyPatch) -> Non
     monkeypatch.setattr(main, "valid_google_url", lambda url: True)
     monkeypatch.setattr(main, "has_internet_connection", lambda: True)
 
-    result = main.can_access_google_page("https://www.google.com")
+    result = main.can_access_google_page(
+        "https://www.google.com"
+    )
     assert result == "Accessible"
 
 
