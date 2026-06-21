@@ -1,1 +1,40 @@
-# write your code here
+from app import main
+
+def test_accessible_when_url_valid_and_internet(monkeypatch):
+    # Мокаємо valid_google_url -> True
+    monkeypatch.setattr(main, "valid_google_url", lambda url: True)
+    # Мокаємо has_internet_connection -> True
+    monkeypatch.setattr(main, "has_internet_connection", lambda: True)
+
+    result = main.can_access_google_page("https://www.google.com")
+    assert result == "Accessible"
+
+
+def test_not_accessible_when_url_invalid(monkeypatch):
+    # Мокаємо valid_google_url -> False
+    monkeypatch.setattr(main, "valid_google_url", lambda url: False)
+    # Мокаємо has_internet_connection -> True
+    monkeypatch.setattr(main, "has_internet_connection", lambda: True)
+
+    result = main.can_access_google_page("https://fake.com")
+    assert result == "Not accessible"
+
+
+def test_not_accessible_when_no_internet(monkeypatch):
+    # Мокаємо valid_google_url -> True
+    monkeypatch.setattr(main, "valid_google_url", lambda url: True)
+    # Мокаємо has_internet_connection -> False
+    monkeypatch.setattr(main, "has_internet_connection", lambda: False)
+
+    result = main.can_access_google_page("https://www.google.com")
+    assert result == "Not accessible"
+
+
+def test_not_accessible_when_both_invalid(monkeypatch):
+    # Мокаємо valid_google_url -> False
+    monkeypatch.setattr(main, "valid_google_url", lambda url: False)
+    # Мокаємо has_internet_connection -> False
+    monkeypatch.setattr(main, "has_internet_connection", lambda: False)
+
+    result = main.can_access_google_page("https://fake.com")
+    assert result == "Not accessible"
